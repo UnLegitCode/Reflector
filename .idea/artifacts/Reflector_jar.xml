@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Reflector:jar">
+    <output-path>$USER_HOME$/Desktop</output-path>
+    <root id="archive" name="Reflector_jar.jar">
+      <element id="module-output" name="Reflector" />
+    </root>
+  </artifact>
+</component>
