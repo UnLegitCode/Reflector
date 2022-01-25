@@ -1,2 +1,9 @@
 /target
-/.idea/*
+
+/.idea/workspace.xml
+/.idea/artifacts
+/.idea/compiler.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/uiDesigner.xml
+/.idea/vcs.xml
