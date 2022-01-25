@@ -26,7 +26,7 @@ public enum ClassMemberModifier {
     TRANSIENT(Modifier::isTransient, new ClassMember[] {ClassMember.FIELD});
 
     IntPredicate modifiedTest;
-    @Getter ClassMember[] availableElements;
+    @Getter ClassMember[] availableMembers;
 
     public boolean isModified(@NonNull Member member) {
         return modifiedTest.test(member.getModifiers());
