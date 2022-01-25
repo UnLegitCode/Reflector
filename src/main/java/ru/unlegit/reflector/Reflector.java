@@ -19,11 +19,11 @@ public class Reflector {
         return new ReflectedConstructorAccessor<>(ReflectUtil.getConstructor(declaringClass, parameterTypes));
     }
 
-    public static <T> ClassAccessor<T> getClassAccess(@NonNull Class<T> clazz) {
-        return new SimpleClassAccessor<>(clazz);
+    public static <T> ClassAccessor<T> getClassAccess(@NonNull AccessStrategy strategy, @NonNull Class<T> clazz) {
+        return strategy == AccessStrategy.SIMPLE ? new SimpleClassAccessor<>(clazz) : new CachingClassAccessor<>(clazz);
     }
 
-    public static <T> ObjectAccessor<T> getObjectAccess(@NonNull T object) {
-        return new SimpleObjectAccessor<>(object);
+    public static <T> ObjectAccessor<T> getObjectAccess(@NonNull AccessStrategy strategy, @NonNull T object) {
+        return strategy == AccessStrategy.SIMPLE ? new SimpleObjectAccessor<>(object) : new CachingObjectAccessor<>(object);
     }
 }
