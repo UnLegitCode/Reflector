@@ -1,12 +1,16 @@
-package ru.unlegit.reflector;
+package ru.unlegit.reflector.method;
 
 import lombok.NonNull;
+import ru.unlegit.reflector.ClassMemberAccessor;
+import ru.unlegit.reflector.ReflectException;
 
-public interface MethodAccessor {
+import java.lang.reflect.Method;
 
-    <T> T invoke(Object object, Object... arguments) throws ReflectException;
+public interface MethodAccessor<Type> extends ClassMemberAccessor<Method> {
 
-    default <T> T invoke(Object object, @NonNull Iterable<Object> arguments) throws ReflectException {
+    Type invoke(Object object, Object... arguments) throws ReflectException;
+
+    default Type invoke(Object object, @NonNull Iterable<Object> arguments) throws ReflectException {
         int size = 0;
 
         for (Object argument : arguments) size++;

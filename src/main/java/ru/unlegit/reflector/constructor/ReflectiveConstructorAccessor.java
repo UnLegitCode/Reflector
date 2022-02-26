@@ -1,13 +1,15 @@
-package ru.unlegit.reflector;
+package ru.unlegit.reflector.constructor;
 
 import lombok.NonNull;
+import ru.unlegit.reflector.AbstractClassMemberAccessor;
+import ru.unlegit.reflector.ReflectException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class ReflectedConstructorAccessor<T> extends AbstractClassMemberAccessor<Constructor<T>> implements ConstructorAccessor<T> {
+public class ReflectiveConstructorAccessor<T> extends AbstractClassMemberAccessor<Constructor<T>> implements ConstructorAccessor<T> {
 
-    public ReflectedConstructorAccessor(@NonNull Constructor<T> constructor) {
+    public ReflectiveConstructorAccessor(@NonNull Constructor<T> constructor) {
         super(constructor);
     }
 

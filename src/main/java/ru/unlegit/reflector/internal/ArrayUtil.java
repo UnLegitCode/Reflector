@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class ArrayMapper {
+public class ArrayUtil {
 
     public static Class<?>[] mapClasses(@NonNull Object[] array) {
         Class<?>[] classMap = new Class[array.length];

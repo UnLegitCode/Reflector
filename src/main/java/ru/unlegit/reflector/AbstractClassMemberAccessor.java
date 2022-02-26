@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PROTECTED, makeFinal = true)
-abstract class AbstractClassMemberAccessor<T extends AccessibleObject & Member> implements ClassMemberAccessor<T> {
+public abstract class AbstractClassMemberAccessor<T extends AccessibleObject & Member> implements ClassMemberAccessor<T> {
 
     Set<ClassMemberModifier> modifiers;
     ClassMemberModifier accessModifier;

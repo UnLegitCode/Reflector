@@ -1,11 +1,13 @@
-package ru.unlegit.reflector;
+package ru.unlegit.reflector.object;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import ru.unlegit.reflector.internal.ArrayMapper;
+import ru.unlegit.reflector.ReflectException;
+import ru.unlegit.reflector.Reflector;
+import ru.unlegit.reflector.internal.ArrayUtil;
 
 @Getter
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class SimpleObjectAccessor<T> implements ObjectAccessor<T> {
 
     @Override
     public <R> R getFieldValue(@NonNull String fieldName) throws ReflectException {
-        return Reflector.getFieldAccess(accessedObject.getClass(), fieldName).getValue(accessedObject);
+        return Reflector.<R>getFieldAccess(accessedObject.getClass(), fieldName).getValue(accessedObject);
     }
 
     @Override
@@ -26,6 +28,6 @@ public class SimpleObjectAccessor<T> implements ObjectAccessor<T> {
 
     @Override
     public <R> R invokeMethod(String methodName, Object... arguments) throws ReflectException {
-        return Reflector.getMethodAccess(accessedObject.getClass(), methodName, ArrayMapper.mapClasses(arguments)).invoke(accessedObject, arguments);
+        return Reflector.<R>getMethodAccess(accessedObject.getClass(), methodName, ArrayUtil.mapClasses(arguments)).invoke(accessedObject, arguments);
     }
 }

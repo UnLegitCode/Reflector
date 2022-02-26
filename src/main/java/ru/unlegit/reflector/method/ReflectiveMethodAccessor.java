@@ -1,23 +1,24 @@
-package ru.unlegit.reflector;
+package ru.unlegit.reflector.method;
 
 import lombok.NonNull;
+import ru.unlegit.reflector.AbstractClassMemberAccessor;
+import ru.unlegit.reflector.ReflectException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class ReflectedMethodAccessor extends AbstractClassMemberAccessor<Method> implements MethodAccessor {
+public class ReflectiveMethodAccessor<Type> extends AbstractClassMemberAccessor<Method> implements MethodAccessor<Type> {
 
-    public ReflectedMethodAccessor(@NonNull Method method) {
+    public ReflectiveMethodAccessor(@NonNull Method method) {
         super(method);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T invoke(Object object, Object... arguments) throws ReflectException {
+    public Type invoke(Object object, Object... arguments) throws ReflectException {
         openAccess();
 
         try {
-            return (T) accessedMember.invoke(object, arguments);
+            return (Type) accessedMember.invoke(object, arguments);
         } catch (IllegalAccessException exception) {
             throw new ReflectException(ReflectException.Reason.ILLEGAL_ACCESS);
         } catch (InvocationTargetException exception) {

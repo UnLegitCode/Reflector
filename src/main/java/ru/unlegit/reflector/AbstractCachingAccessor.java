@@ -3,7 +3,10 @@ package ru.unlegit.reflector;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
+import ru.unlegit.reflector.constructor.ConstructorAccessor;
+import ru.unlegit.reflector.field.FieldAccessor;
 import ru.unlegit.reflector.internal.BiContainer;
+import ru.unlegit.reflector.method.MethodAccessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,14 +15,14 @@ import java.util.concurrent.atomic.AtomicReference;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public abstract class AbstractCachingAccessor<T> {
 
-    Map<String, FieldAccessor> fieldAccessorMap = new HashMap<>();
+    Map<String, FieldAccessor<?>> fieldAccessorMap = new HashMap<>();
     Map<BiContainer<String, Class<?>[]>, MethodAccessor> methodAccessorMap = new HashMap<>();
     Map<Class<?>[], ConstructorAccessor<T>> constructorAccessorMap = new HashMap<>();
 
-    protected FieldAccessor getFieldAccess(@NonNull Class<T> accessedClass, @NonNull String fieldName) throws ReflectException {
+    protected <Type> FieldAccessor<Type> getFieldAccess(@NonNull Class<T> accessedClass, @NonNull String fieldName) throws ReflectException {
         AtomicReference<ReflectException> exceptionReference = new AtomicReference<>();
 
-        FieldAccessor fieldAccessor = fieldAccessorMap.computeIfAbsent(fieldName, s -> {
+        FieldAccessor<?> fieldAccessor = fieldAccessorMap.computeIfAbsent(fieldName, s -> {
             try {
                 return Reflector.getFieldAccess(accessedClass, fieldName);
             } catch (ReflectException exception) {
@@ -29,13 +32,13 @@ public abstract class AbstractCachingAccessor<T> {
             }
         });
 
-        return throwIfNull(fieldAccessor, exceptionReference.get());
+        return (FieldAccessor<Type>) throwIfNull(fieldAccessor, exceptionReference.get());
     }
 
-    protected MethodAccessor getMethodAccess(@NonNull Class<T> accessedClass, @NonNull String methodName, Class<?>... argumentTypes) throws ReflectException {
+    protected <R> MethodAccessor<R> getMethodAccess(@NonNull Class<T> accessedClass, @NonNull String methodName, Class<?>... argumentTypes) throws ReflectException {
         AtomicReference<ReflectException> exceptionReference = new AtomicReference<>();
 
-        MethodAccessor methodAccessor = methodAccessorMap.computeIfAbsent(new BiContainer<>(methodName, argumentTypes), keyContainer -> {
+        MethodAccessor<?> methodAccessor = methodAccessorMap.computeIfAbsent(new BiContainer<>(methodName, argumentTypes), keyContainer -> {
             try {
                 return Reflector.getMethodAccess(accessedClass, methodName, argumentTypes);
             } catch (ReflectException exception) {
@@ -45,7 +48,7 @@ public abstract class AbstractCachingAccessor<T> {
             }
         });
 
-        return throwIfNull(methodAccessor, exceptionReference.get());
+        return (MethodAccessor<R>) throwIfNull(methodAccessor, exceptionReference.get());
     }
 
     protected @NonNull ConstructorAccessor<T> getConstructorAccess(@NonNull Class<T> accessedClass, Class<?>... parameterTypes) throws ReflectException {

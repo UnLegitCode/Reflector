@@ -1,6 +1,7 @@
-package ru.unlegit.reflector;
+package ru.unlegit.reflector.object;
 
 import lombok.NonNull;
+import ru.unlegit.reflector.ReflectException;
 
 public interface ObjectAccessor<T> {
 

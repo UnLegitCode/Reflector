@@ -1,10 +1,15 @@
-package ru.unlegit.reflector;
+package ru.unlegit.reflector.clas;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import ru.unlegit.reflector.AbstractCachingAccessor;
+import ru.unlegit.reflector.ReflectException;
+import ru.unlegit.reflector.constructor.ConstructorAccessor;
+import ru.unlegit.reflector.field.FieldAccessor;
+import ru.unlegit.reflector.method.MethodAccessor;
 
 import java.lang.reflect.Modifier;
 
@@ -16,12 +21,12 @@ public class CachingClassAccessor<T> extends AbstractCachingAccessor<T> implemen
     @NonNull Class<T> accessedClass;
 
     @Override
-    public @NonNull FieldAccessor getFieldAccess(@NonNull String fieldName) throws ReflectException {
+    public @NonNull <R> FieldAccessor<R> getFieldAccess(@NonNull String fieldName) throws ReflectException {
         return getFieldAccess(accessedClass, fieldName);
     }
 
     @Override
-    public @NonNull MethodAccessor getMethodAccess(@NonNull String methodName, Class<?>... argumentTypes) throws ReflectException {
+    public @NonNull <R> MethodAccessor<R> getMethodAccess(@NonNull String methodName, Class<?>... argumentTypes) throws ReflectException {
         return getMethodAccess(accessedClass, methodName, argumentTypes);
     }
 

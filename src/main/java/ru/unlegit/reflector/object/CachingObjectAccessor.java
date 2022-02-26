@@ -1,11 +1,13 @@
-package ru.unlegit.reflector;
+package ru.unlegit.reflector.object;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import ru.unlegit.reflector.internal.ArrayMapper;
+import ru.unlegit.reflector.AbstractCachingAccessor;
+import ru.unlegit.reflector.ReflectException;
+import ru.unlegit.reflector.internal.ArrayUtil;
 
 @Getter
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class CachingObjectAccessor<T> extends AbstractCachingAccessor<T> impleme
 
     @Override
     public <R> R getFieldValue(@NonNull String fieldName) throws ReflectException {
-        return getFieldAccess(getAccessedObjectClass(), fieldName).getValue(accessedObject);
+        return this.<R>getFieldAccess(getAccessedObjectClass(), fieldName).getValue(accessedObject);
     }
 
     @Override
@@ -26,7 +28,7 @@ public class CachingObjectAccessor<T> extends AbstractCachingAccessor<T> impleme
 
     @Override
     public <R> R invokeMethod(String methodName, Object... arguments) throws ReflectException {
-        return getMethodAccess(getAccessedObjectClass(), methodName, ArrayMapper.mapClasses(arguments)).invoke(accessedObject, arguments);
+        return this.<R>getMethodAccess(getAccessedObjectClass(), methodName, ArrayUtil.mapClasses(arguments)).invoke(accessedObject, arguments);
     }
 
     @SuppressWarnings("unchecked")
